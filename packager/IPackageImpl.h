@@ -69,6 +69,7 @@ namespace packagemanager
         std::string logLevels; // json array of strings
         bool mapi;
         std::set<std::string> fkpsFiles;
+        std::string ralfPkgPath; //Json string containing ralf dependency details.
 
         std::string fireboltVersion;
         bool enableDebugger;
