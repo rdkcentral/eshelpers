@@ -30,12 +30,12 @@
 
 namespace packagemanager
 {
-
     enum Result : uint8_t
     {
         SUCCESS,
         FAILED,
-        VERSION_MISMATCH
+        VERSION_MISMATCH,
+        PERSISTENCE_FAILURE
     };
 
     typedef enum : uint8_t
@@ -69,6 +69,7 @@ namespace packagemanager
         std::string logLevels; // json array of strings
         bool mapi;
         std::set<std::string> fkpsFiles;
+        std::string ralfPkgPath; // json string containing ralf dependency details
 
         std::string fireboltVersion;
         bool enableDebugger;
@@ -92,10 +93,11 @@ namespace packagemanager
         virtual Result Lock(const std::string &packageId, const std::string &version, std::string &unpackedPath, ConfigMetaData &configMetadata, NameValues &additionalLocks) = 0;
         virtual Result Unlock(const std::string &packageId, const std::string &version) { return SUCCESS; }
 
-        // XXX: Below FOUR functions will be removed after RDK-M is updated, so don't need time the changes in RDK-M
+        // XXX: Below THREE functions will be removed after RDK-M is updated, so don't need time the changes in RDK-M
         virtual Result GetLockInfo(const std::string &packageId, const std::string &version, std::string &unpackedPath, bool &locked) { return SUCCESS; }
         virtual Result GetList(std::string &packageList) { return SUCCESS; }
         virtual Result Lock(const std::string &packageId, const std::string &version, std::string &unpackedPath, ConfigMetaData &configMetadata) { return SUCCESS; }
+        
         virtual Result GetFileMetadata(const std::string &fileLocator, std::string &packageId, std::string &version, ConfigMetaData &configMetadata) { return SUCCESS; }
 
         static std::shared_ptr<packagemanager::IPackageImpl> instance();
