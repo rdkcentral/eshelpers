@@ -34,6 +34,7 @@ namespace packagemanager
     {
         SUCCESS,
         FAILED,
+        VERIFICATION_FAILURE,
         VERSION_MISMATCH,
         PERSISTENCE_FAILURE
     };
@@ -65,14 +66,14 @@ namespace packagemanager
         std::string runtimePath;
 
         std::string logFilePath;
-        uint32_t logFileMaxSize;
+        uint32_t logFileMaxSize = 0;
         std::string logLevels; // json array of strings
-        bool mapi;
+        bool mapi = false;
         std::set<std::string> fkpsFiles;
         std::string ralfPkgPath; // json string containing ralf dependency details
 
         std::string fireboltVersion;
-        bool enableDebugger;
+        bool enableDebugger = false;
     };
 
     typedef std::pair<std::string, std::string> ConfigMetadataKey;
