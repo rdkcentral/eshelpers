@@ -48,17 +48,17 @@ namespace packagemanager
 
     struct ConfigMetaData
     {
-        bool dial;
-        bool wanLanAccess;
-        bool thunder;
-        int32_t systemMemoryLimit;
-        int32_t gpuMemoryLimit;
+        bool dial = false;
+        bool wanLanAccess = false;
+        bool thunder = false;
+        int32_t systemMemoryLimit = 0;
+        int32_t gpuMemoryLimit = 0;
         std::vector<std::string> envVars;
-        uint32_t userId;
-        uint32_t groupId;
-        uint32_t dataImageSize;
+        uint32_t userId = 0;
+        uint32_t groupId = 0;
+        uint32_t dataImageSize = 0;
 
-        bool resourceManagerClientEnabled;
+        bool resourceManagerClientEnabled = false;
         std::string dialId;
         std::string command;
         ApplicationType appType;
@@ -67,13 +67,17 @@ namespace packagemanager
 
         std::string logFilePath;
         uint32_t logFileMaxSize = 0;
-        std::string logLevels; // json array of strings
+        std::string logLevels;  // json array of strings
         bool mapi = false;
         std::set<std::string> fkpsFiles;
         std::string ralfPkgPath; // json string containing ralf dependency details
 
         std::string fireboltVersion;
         bool enableDebugger = false;
+
+        std::string packageFormat;
+        std::string mimeType;
+        std::string runtimeType;
     };
 
     typedef std::pair<std::string, std::string> ConfigMetadataKey;
