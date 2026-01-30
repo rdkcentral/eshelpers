@@ -61,7 +61,7 @@ namespace packagemanager
         bool resourceManagerClientEnabled = false;
         std::string dialId;
         std::string command;
-        ApplicationType appType;
+        ApplicationType appType = UNKNOWN;
         std::string appPath;
         std::string runtimePath;
 
