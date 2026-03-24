@@ -34,6 +34,7 @@ namespace packagemanager
     {
         SUCCESS,
         FAILED,
+        VERIFICATION_FAILURE,
         VERSION_MISMATCH,
         PERSISTENCE_FAILURE
     };
@@ -47,32 +48,36 @@ namespace packagemanager
 
     struct ConfigMetaData
     {
-        bool dial;
-        bool wanLanAccess;
-        bool thunder;
-        int32_t systemMemoryLimit;
-        int32_t gpuMemoryLimit;
+        bool dial = false;
+        bool wanLanAccess = false;
+        bool thunder = false;
+        int32_t systemMemoryLimit = 0;
+        int32_t gpuMemoryLimit = 0;
         std::vector<std::string> envVars;
-        uint32_t userId;
-        uint32_t groupId;
-        uint32_t dataImageSize;
+        uint32_t userId = 0;
+        uint32_t groupId = 0;
+        uint32_t dataImageSize = 0;
 
-        bool resourceManagerClientEnabled;
+        bool resourceManagerClientEnabled = false;
         std::string dialId;
         std::string command;
-        ApplicationType appType;
+        ApplicationType appType = UNKNOWN;
         std::string appPath;
         std::string runtimePath;
 
         std::string logFilePath;
-        uint32_t logFileMaxSize;
-        std::string logLevels; // json array of strings
-        bool mapi;
+        uint32_t logFileMaxSize = 0;
+        std::string logLevels;  // json array of strings
+        bool mapi = false;
         std::set<std::string> fkpsFiles;
         std::string ralfPkgPath; // json string containing ralf dependency details
 
         std::string fireboltVersion;
-        bool enableDebugger;
+        bool enableDebugger = false;
+
+        std::string packageFormat;
+        std::string mimeType;
+        std::string runtimeType;
     };
 
     typedef std::pair<std::string, std::string> ConfigMetadataKey;
@@ -94,11 +99,6 @@ namespace packagemanager
         virtual Result Lock(const std::string &packageId, const std::string &version, std::string &unpackedPath, ConfigMetaData &configMetadata, NameValues &additionalLocks) = 0;
         virtual Result Unlock(const std::string &packageId, const std::string &version) { return SUCCESS; }
 
-        // XXX: Below THREE functions will be removed after RDK-M is updated, so don't need time the changes in RDK-M
-        virtual Result GetLockInfo(const std::string &packageId, const std::string &version, std::string &unpackedPath, bool &locked) { return SUCCESS; }
-        virtual Result GetList(std::string &packageList) { return SUCCESS; }
-        virtual Result Lock(const std::string &packageId, const std::string &version, std::string &unpackedPath, ConfigMetaData &configMetadata) { return SUCCESS; }
-        
         virtual Result GetFileMetadata(const std::string &fileLocator, std::string &packageId, std::string &version, ConfigMetaData &configMetadata) { return SUCCESS; }
 
         static std::shared_ptr<packagemanager::IPackageImpl> instance();
