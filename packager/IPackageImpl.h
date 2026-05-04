@@ -78,6 +78,7 @@ namespace packagemanager
         std::string packageFormat;
         std::string mimeType;
         std::string runtimeType;
+        std::string capabilities;
     };
 
     typedef std::pair<std::string, std::string> ConfigMetadataKey;
