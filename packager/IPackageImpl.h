@@ -79,7 +79,7 @@ namespace packagemanager
         std::string mimeType;
         std::string runtimeType;
         std::string capabilities;
-        std::string md5hash;
+        std::string md5Hash;
     };
 
     typedef std::pair<std::string, std::string> ConfigMetadataKey;
