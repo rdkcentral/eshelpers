@@ -101,7 +101,9 @@ namespace packagemanager
         virtual Result Unlock(const std::string &packageId, const std::string &version) { return SUCCESS; }
 
         virtual Result GetFileMetadata(const std::string &fileLocator, std::string &packageId, std::string &version, ConfigMetaData &configMetadata) { return SUCCESS; }
+
         virtual Result GetInstalledPackageMetadata(const std::string &packageId, const std::string &version, std::string &config) { return SUCCESS; }
+        virtual Result GetConfigListForInstalledPackages(const std::string &filter, std::string &config ) { return SUCCESS; }
 
         static std::shared_ptr<packagemanager::IPackageImpl> instance();
     };
