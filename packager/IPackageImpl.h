@@ -107,7 +107,7 @@ namespace packagemanager
 
         // Returns the package ids of currently running applications that must be restarted because they
         // are the given package (any mounted version) or depend on it, directly or transitively.
-        virtual Result GetRunningApplicationsUsingPackage(const std::string &packageId, std::vector<std::string> &applicationIds) { return FAILED; }
+        virtual Result GetRunningApplicationsUsingPackage(const std::string &packageId, std::vector<std::string> &applicationIds) { return SUCCESS; }
 
         static std::shared_ptr<packagemanager::IPackageImpl> instance();
     };
