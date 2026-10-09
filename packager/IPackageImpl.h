@@ -117,8 +117,10 @@ namespace packagemanager
         // applicationIds: the ids serialized as a compact JSON array of strings -
         // "[]" when no running application uses the package.
         //
-        // Returns: SUCCESS - applicationIds holds the JSON array; FAILED - the
-        // backend is not initialized (called before Initialize()).
+        // Returns: SUCCESS - applicationIds holds the JSON array. Backends with their
+        // own initialization state (e.g. a mount-tracking backend) may return FAILED
+        // when called before their Initialize(); the default implementation has no
+        // state and always succeeds with an empty array.
         //
         // The default implementation reports an empty array: backends without
         // mount/lock tracking have no running applications to report.
