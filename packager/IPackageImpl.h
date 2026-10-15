@@ -105,6 +105,27 @@ namespace packagemanager
         virtual Result GetInstalledPackageMetadata(const std::string &packageId, const std::string &version, std::string &config) { return SUCCESS; }
         virtual Result GetConfigListForInstalledPackages(const std::string &filter, std::string &config ) { return SUCCESS; }
 
+        // Returns the ids of the currently running (locked) applications that use the
+        // given package - they are the package or depend on it, directly or transitively.
+        // Only top-level applications are reported; restarting one refreshes its whole
+        // dependency chain, so intermediate libraries are not listed.
+        //
+        // The package is matched by id only, deliberately without a version: running
+        // instances are locked on the version that was installed at Lock time, which may
+        // be older than the version just installed.
+        //
+        // applicationIds: the ids serialized as a compact JSON array of strings -
+        // "[]" when no running application uses the package.
+        //
+        // Returns: SUCCESS - applicationIds holds the JSON array. Backends with their
+        // own initialization state (e.g. a mount-tracking backend) may return FAILED
+        // when called before their Initialize(); the default implementation has no
+        // state and always succeeds with an empty array.
+        //
+        // The default implementation reports an empty array: backends without
+        // mount/lock tracking have no running applications to report.
+        virtual Result GetRunningApplicationsUsingPackage(const std::string &packageId, std::string &applicationIds) { applicationIds = "[]"; return SUCCESS; }
+
         static std::shared_ptr<packagemanager::IPackageImpl> instance();
     };
 
