@@ -67,7 +67,7 @@ namespace packagemanager
 
         std::string logFilePath;
         uint32_t logFileMaxSize = 0;
-        std::string logLevels;  // json array of strings
+        std::string logLevels; // json array of strings
         bool mapi = false;
         std::set<std::string> fkpsFiles;
         std::string ralfPkgPath; // json string containing ralf dependency details
@@ -81,6 +81,8 @@ namespace packagemanager
         std::string capabilities;
         std::string md5Hash;
     };
+
+    typedef std::map<std::string, std::string> PackageSpecifierRuntimeMap;
 
     typedef std::pair<std::string, std::string> ConfigMetadataKey;
     typedef std::map<ConfigMetadataKey, ConfigMetaData> ConfigMetadataArray;
@@ -103,7 +105,7 @@ namespace packagemanager
         virtual Result GetFileMetadata(const std::string &fileLocator, std::string &packageId, std::string &version, ConfigMetaData &configMetadata) { return SUCCESS; }
 
         virtual Result GetInstalledPackageMetadata(const std::string &packageId, const std::string &version, std::string &config) { return SUCCESS; }
-        virtual Result GetConfigListForInstalledPackages(const std::string &filter, std::string &config ) { return SUCCESS; }
+        virtual Result GetConfigListForInstalledPackages(const std::string &filter, std::string &config) { return SUCCESS; }
 
         // Returns the ids of the currently running (locked) applications that use the
         // given package - they are the package or depend on it, directly or transitively.
@@ -124,7 +126,24 @@ namespace packagemanager
         //
         // The default implementation reports an empty array: backends without
         // mount/lock tracking have no running applications to report.
-        virtual Result GetRunningApplicationsUsingPackage(const std::string &packageId, std::string &applicationIds) { applicationIds = "[]"; return SUCCESS; }
+        virtual Result GetRunningApplicationsUsingPackage(const std::string &packageId, std::string &applicationIds)
+        {
+            applicationIds = "[]";
+            return SUCCESS;
+        }
+
+        // Associate the runtime with a particular packagespecifier.
+        // packageSpecifier: the identifier of the runtime environment.
+        // packageId: the identifier of the package to associate with the runtime.
+        virtual Result SetPackageSpecifierRuntime(const std::string &packageSpecifier, const std::string &packageId) { return SUCCESS; }
+
+        // Get the list of runtimes associated with package specifiers.
+        // runtimes: the list of package specifier-runtime pairs.
+        virtual Result GetPackageSpecifierRuntimes(PackageSpecifierRuntimeMap &rtPkgSpecifierList)
+        {
+            rtPkgSpecifierList.clear();
+            return SUCCESS;
+        }
 
         static std::shared_ptr<packagemanager::IPackageImpl> instance();
     };
